@@ -799,7 +799,7 @@ rpois(n=100, lambda=2)
 ```
 
 ```{r}
-> runif(n=100, min=5, max=10)
+runif(n=100, min=5, max=10)
 ```
 
 ```{r}
@@ -1159,7 +1159,7 @@ Für 𝑋∼𝐵𝑖(𝑛;𝑝)=𝐵𝑖(10;0.2) ist  𝑃(𝑋≤3)
 pbinom(3, size=10, prob=0.2.)
 ```
 
-Ist für 𝑋∼𝑁(𝜇;𝜎2)=𝑁(165;72) das 1. Quartil gesucht, d.h. 𝑥 so, dass  𝑃(𝑋≤𝑥)=0.25
+Ist für 𝑋∼𝑁(𝜇;𝜎²)=𝑁(165;72) das 1. Quartil gesucht, d.h. 𝑥 so, dass  𝑃(𝑋≤𝑥)=0.25
 
 ```{r}
 qnorm(0.25, mean=165, sd=7)
@@ -1175,6 +1175,8 @@ rexp(100, rate=2)
 
 2. Diskrete Verteilung
 
+Verteilungsfunktion der Binomialverteilung
+
 ```{r}
 xVect <- 0:10
 fVect <- dbinom(xVect, size=10, prob=0.2)
@@ -1188,6 +1190,8 @@ barplot(
 ```
 
 ![](img/2021-03-09_20-15-49.png)
+
+Dichtefunktion der Binomialverteilung
 
 ```{r}
 xVect <- 0:10
@@ -1206,6 +1210,8 @@ plot(
 
 3. Stetige Verteilung
 
+Verteilungsfunktion der Normalverteilung
+
 ```{r}
 xVect <- seq(from=142, to=188, by=0.1) # Vektor (142.0, 142.1, ..., 188.0)
   fVect <- dnorm(xVect, mean=165, sd=7) # f(x) für x aus {142.0, 142.1, ..., 188.0}
@@ -1220,6 +1226,8 @@ xVect <- seq(from=142, to=188, by=0.1) # Vektor (142.0, 142.1, ..., 188.0)
 ```
 
 ![](img/2021-03-09_20-19-20.png)
+
+Dichtefunktion der Normalverteilung
 
 ```{r}
 xVect <- seq(from=142, to=188, by=0.1) # Vektor (142.0, 142.1, ..., 188.0)
@@ -1311,9 +1319,9 @@ probability of success
 
 t.test(
   daten$groesse,
-  alternative='greater', # rechtsseitiger Test
-  mu=170, 			# postulierter Mittelwert mu_0 in der Gesamtheit
-  conf.level=.9 			# Konfidenzniveau 1-alpha für das Konf.intervall des Mittelwerts
+  alternative='greater',    # rechtsseitiger Test
+  mu=170,                   # postulierter Mittelwert mu_0 in der Gesamtheit
+  conf.level=.9             # Konfidenzniveau 1-alpha für das Konf.intervall des Mittelwerts
 )
 ```
 ```{r}
@@ -1323,8 +1331,8 @@ data:  daten$groesse
 t = 0.80656, df = 8, p-value = 0.2216
 alternative hypothesis: true mean is greater than 170
 90 percent confidence interval:
- 168.6177      Inf
-sample estimates:
+ 168.6177      
+Inf sample estimates:
 mean of x 
  171.8889
 
@@ -1341,14 +1349,14 @@ Statistics -> Means -> Simple-sample t-test
 
 ```{r}
 with(
-	daten, (
-		t.test(
-			groesse,
-			alternative='greater',
-			mu=170,
-			conf.level=.90
-		)
-	)
+  daten, (
+    t.test(
+      groesse,
+      alternative='greater',
+      mu=170,
+      conf.level=.90
+    )
+  )
 )
 ```
 
@@ -1359,10 +1367,10 @@ with(
 # Nullhypothese = die Mittelwerte in der Gesamtheit nicht voneinander unterscheiden
 
 t.test(
-  groesse~geschlecht, 		# Formeleingabe, zu interpretieren als "groesse in Abhängigkeit von geschlecht"
-  alternative="two.sided", # zweiseitiger Test
-  conf.level=.95, 			# Konfidenzniveau 1-alpha für das Konf.intervall der Differenz der Mittelwerte
-  data=daten # damit R weiss, wo es die Variablen suchen soll
+  groesse~geschlecht,         # Formeleingabe, zu interpretieren als "groesse in Abhängigkeit von geschlecht"
+  alternative="two.sided",    # zweiseitiger Test
+  conf.level=.95,             # Konfidenzniveau 1-alpha für das Konf.intervall der Differenz der Mittelwerte
+  data=daten                  # damit R weiss, wo es die Variablen suchen soll
 )
 ```
 ```{r}
@@ -1450,17 +1458,19 @@ Statistics -> Means -> Paired t-Test
 
 ```{r}
 load("/Users/chrigro/School/FFHS/documentation-ffhs-bsc-informatik/WS/WS_Begleitkurs/datenBlutdruck.RData")
+```
 
+```{r}
 with(
-	daten, (
-		t.test(
-			blutdruckVor,
-			blutdruckNach,
-			alternative='two.sided', 
-			conf.level=.99, 
-  			paired=TRUE
-		)
-	)
+  daten, (
+    t.test(
+      blutdruckVor,
+      blutdruckNach,
+      alternative='two.sided', 
+      conf.level=.99, 
+      paired=TRUE
+    )
+  )
 )
 ```
 
@@ -1472,14 +1482,14 @@ load("/Users/chrigro/School/FFHS/documentation-ffhs-bsc-informatik/WS/WS_Begleit
 ```{r}
 # Nullhypothese = die Haarfarbe in der Bevölkerung der diskreten Verteilung P("schwarz") = 0.15, P("braun") = 0.6, P("blond") = 0.2 und P("rot") = 0.05 
 
-haarTab <- table( 			# Tabelle von "haarfarbe" erzeugen (wird von R nicht angezeigt)
+haarTab <- table(           # Tabelle von "haarfarbe" erzeugen (wird von R nicht angezeigt)
   daten$haarfarbe
 )
-chisq.test( 			# Chiquadrat-Test durchführen
+chisq.test(                 # Chiquadrat-Test durchführen
   haarTab,
-  p=c(0.15,0.6,0.2,0.05)# vorgegebene Verteilung (gleiche Reihenfolge wie Werte von "haarfarbe")
+  p=c(0.15,0.6,0.2,0.05)    # vorgegebene Verteilung (gleiche Reihenfolge wie Werte von "haarfarbe")
 )
-remove(haarTab) # aufräumen
+remove(haarTab)             # aufräumen
 ```
 ```{r}
 #################
@@ -1596,20 +1606,20 @@ F-statistic: 10.63 on 1 and 7 DF,  p-value: 0.01387
 ```
 
 ```{r}
-plot( # zuerst ein ganz normales Streudiagramm
+plot(                                # zuerst ein ganz normales Streudiagramm
   daten2$groesse,
   daten2$gewicht,
   xlab="Körpergrösse [cm]",
   ylab="Gewicht [kg]"
 )
-abline(LinearModel.gewichtVsGroesse) # Regressionsgerade einzeichnen
-lines( # Glättungskurve einzeichnen
-  lowess( # Glättungskurve berechnen
+abline(LinearModel.gewichtVsGroesse)  # Regressionsgerade einzeichnen
+lines(                                # Glättungskurve einzeichnen
+  lowess(                             # Glättungskurve berechnen
     daten2$groesse,
     daten2$gewicht,
-    f=0.5 # Anteil berücksichtigter Punkte (f = fraction)
+    f=0.5                             # Anteil berücksichtigter Punkte (f = fraction)
   ),
-  lty="dashed" # gestrichelte Glättungskurve (lty = line type)
+  lty="dashed"                        # gestrichelte Glättungskurve (lty = line type)
 )
 ```
 
@@ -1617,24 +1627,25 @@ lines( # Glättungskurve einzeichnen
 
 ```{r}
 # zuerst wird eine temporäre, nach "groesse" sortierte Datei erzeugt
+
 tempDaten <- daten[order(daten$groesse), ]
-predictMatrix <- predict( # vorausgesagte Werte erzeugen
-  LinearModel.gewichtVsGroesse, # für die Voraussage benutztes Modell
-  interval="confidence", # Konf.intervall für vorausgesagte Werte berechnen
-  tempDaten # Voraussage von "groesse" aufgrund von "gewicht" in tempDaten
+predictMatrix <- predict(                         # vorausgesagte Werte erzeugen
+  LinearModel.gewichtVsGroesse,                   # für die Voraussage benutztes Modell
+  interval="confidence",                          # Konf.intervall für vorausgesagte Werte berechnen
+  tempDaten                                       # Voraussage von "groesse" aufgrund von "gewicht" in tempDaten
 )
-plot( # Streudiagramm erzeugen, mit nach "groesse" sortierten Daten
+plot(                                             # Streudiagramm erzeugen, mit nach "groesse" sortierten Daten
   tempDaten$groesse,
   tempDaten$gewicht,
   xlab="Körpergrösse [cm]",
   ylab="Gewicht [kg]"
 )
-matlines( # vorausgesagte Werte und Konf.intervall einzeichnen
-# (matlines = matrix lines)
-  tempDaten$groesse, # unabhängige Variable ("x-Werte")
-  predictMatrix, # abhängige Werte ("y-Werte")
-  lty=c("solid", "dashed", "dashed"), # Linientypen
-  col="black" # Linienfarben
+matlines(                                         # vorausgesagte Werte und Konf.intervall einzeichnen
+                                                  # (matlines = matrix lines)
+  tempDaten$groesse,                              # unabhängige Variable ("x-Werte")
+  predictMatrix,                                  # abhängige Werte ("y-Werte")
+  lty=c("solid", "dashed", "dashed"),             # Linientypen
+  col="black"                                     # Linienfarben
 )
 ```
 
